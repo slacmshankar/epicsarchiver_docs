@@ -90,7 +90,7 @@ The main difference is that PB files contain only one chunk (header+samples) whi
 Chunks are separated by empty lines (<code>\n</code> characters) similar to how HTTP separates its headers from the body.
 While streaming data over the PB/HTTP protocol, the server also uses <a href="http://en.wikipedia.org/wiki/Chunked_transfer_encoding">HTTP chunks</a> to transfer the data across.
 There is no strict formula on how many chunks there will per data retrieval request; the server chunks data based on data source/partition/other parameters.
-The client library for the <a href="http://sourceforge.net/p/epicsarchiverap/pbrawclient/"><code>PB/HTTP</code></a> protocol handles the multiple chunks in a seamless fashion and presents the data to the caller as a single event stream.   
+The client library for the <a href="https://github.com/slacmshankar/epicsarchiverap_pbrawclient/"><code>PB/HTTP</code></a> protocol handles the multiple chunks in a seamless fashion and presents the data to the caller as a single event stream.   
 <figure>
 <img src="images/pbhttp.png"/>
 </figure> 
