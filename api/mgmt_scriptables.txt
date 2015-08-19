@@ -1,0 +1,478 @@
+@StartMethod
+/abortArchivingPV
+org.epics.archiverappliance.mgmt.bpl.AbortArchiveRequest
+- Abort any pending requests for archiving this PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the PV.
+@EndParam
+@EndMethod
+@StartMethod
+/addAlias
+org.epics.archiverappliance.mgmt.bpl.AddAliasAction
+- Add an alias for the specified PV.
+@MethodDescDone
+@StartParam
+pv 
+ The real name of the pv.
+@EndParam
+@StartParam
+aliasname 
+ The alias name of the pv. Note, we cannot have a PVTypeInfo mapped to the alias name.
+@EndParam
+@EndMethod
+@StartMethod
+/archivedPVsNotInList
+org.epics.archiverappliance.mgmt.bpl.ArchivedPVsNotInListAction
+- Given a list of PVs, determine those that are being archived but are not in the incoming list.
+@MethodDescDone
+@StartParam
+pv 
+ A list of pv names. Send as a CSV using a POST, or as a JSON.
+@EndParam
+@EndMethod
+@StartMethod
+/archivePV
+org.epics.archiverappliance.mgmt.bpl.ArchivePVAction
+- Archive one or more PV's.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv to be archived. If archiving more than one PV, use a comma separated list. You can also send the PV list as part of the POST body using standard techniques. If you need to specify different archiving parameters for each PV, send the data as a JSON array (remember to send the content type correctly).
+@EndParam
+@StartParam
+samplingperiod 
+ The sampling period to be used. Optional, default value is 1.0 seconds.
+@EndParam
+@StartParam
+samplingmethod 
+ The sampling method to be used. For now, this is one of SCAN or MONITOR. Optional, default value is MONITOR.
+@EndParam
+@StartParam
+controllingPV 
+ The controlling PV for coditional archiving. Optional; if unspecified, we do not use conditional archiving.
+@EndParam
+@StartParam
+policy 
+ Override the policy execution process and use this policy instead. Optional; if unspecified, we go thru the normal policy execution process.
+@EndParam
+@EndMethod
+@StartMethod
+/changeArchivalParameters
+org.epics.archiverappliance.mgmt.bpl.ChangeArchivalParamsAction
+- Change the archival parameters for a PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@StartParam
+samplingperiod 
+ The new sampling period in seconds.
+@EndParam
+@StartParam
+samplingmethod 
+ The new sampling method  For now, this is one of SCAN or MONITOR.
+@EndParam
+@EndMethod
+@StartMethod
+/changeTypeForPV
+org.epics.archiverappliance.mgmt.bpl.ChangeTypeForPV
+- Change the type of the PV to the specified type. The PV needs to be paused first. For best results, consolidate all the data to one store. Note, this is actually changing the data so you should make a backup just in case. There is every chance that this may leave the data for this PV in an inconsistent state. It is also possible that the plugin may do nothing in which case you may have to rename the existing PV to a new PV; delete this PV and issue a fresh archival request.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@StartParam
+newtype 
+ The new type  one of the ArchDBRTypes. For example, DBR_SCALAR_DOUBLE.
+@EndParam
+@EndMethod
+@StartMethod
+/consolidateDataForPV
+org.epics.archiverappliance.mgmt.bpl.ConsolidatePBFilesForOnePV
+- Consolidate the data for this PV until the specified store. The PV needs to be paused first.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@StartParam
+storage 
+ The name of the store until which we'll consolidate data. This is typically a string like STS or MTS. To get a list of names of stores for a PV, please see /getStoresForPV
+@EndParam
+@EndMethod
+@StartMethod
+/deletePV
+org.epics.archiverappliance.mgmt.bpl.DeletePV
+- Stop archiving the specified PV. The PV needs to be paused first.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@StartParam
+deleteData 
+ Should we delete the data that has already been recorded. Optional, by default, we do not delete the data for this PV. Can be <code>true</code> or <code>false</code>.
+@EndParam
+@EndMethod
+@StartMethod
+/getAllPVs
+org.epics.archiverappliance.mgmt.bpl.GetAllPVs
+- Get all the PVs in the cluster. Note this call can return millions of PVs
+@MethodDescDone
+@StartParam
+pv 
+ An optional argument that can contain a <a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">GLOB</a> wildcard. We will return PVs that match this GLOB. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>. If both pv and regex are unspecified, we match against all PVs.
+@EndParam
+@StartParam
+regex 
+ An optional argument that can contain a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html">Java regex</a> wildcard. We will return PVs that match this regex. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+@EndParam
+@StartParam
+limit 
+ An optional argument that specifies the number of matched PV's that are retured. If unspecified, we return 500 PV names. To get all the PV names, (potentially in the millions), set limit to 1.
+@EndParam
+@EndMethod
+@StartMethod
+/getApplianceInfo
+org.epics.archiverappliance.mgmt.bpl.GetApplianceInfo
+- Get the appliance information for the specified appliance.
+@MethodDescDone
+@StartParam
+id 
+ The identity of the appliance for which we are requesting information. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+@EndParam
+@EndMethod
+@StartMethod
+/getAppliancesInCluster
+org.epics.archiverappliance.mgmt.bpl.GetAppliancesInCluster
+- Get the appliance information for all the appliances in the cluster that are active.
+@MethodDescDone
+@EndMethod
+@StartMethod
+/getMatchingPVsForThisAppliance
+org.epics.archiverappliance.mgmt.bpl.GetMatchingPVsForAppliance
+- Get matching PV's for this appliance. Specify one of pv or regex. If both are specified, we only apply the pv wildcard. If neither is specified, we return an empty list.
+@MethodDescDone
+@StartParam
+pv 
+ An optional argument that can contain a <a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">GLOB</a> wildcard. We will return PVs that match this GLOB. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+@EndParam
+@StartParam
+regex 
+ An optional argument that can contain a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html">Java regex</a> wildcard. We will return PVs that match this regex. For example, if <code>pv=KLYS.*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+@EndParam
+@StartParam
+limit 
+ An optional argument that specifies the number of matched PV's that are returned. If unspecified, we return 500 PV names. To get all the PV names, (potentially in the millions), set limit to 1.
+@EndParam
+@EndMethod
+@StartMethod
+/getPVStatus
+org.epics.archiverappliance.mgmt.bpl.GetPVStatusAction
+- Get the status of a PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name(s) of the pv for which status is to be determined. If a pv is not being archived, you should get back a simple JSON object with a status string of "Not being archived." You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+@EndParam
+@EndMethod
+@StartMethod
+/getPVTypeInfo
+org.epics.archiverappliance.mgmt.bpl.GetPVTypeInfo
+- Get the type info for a given PV. In the archiver appliance terminology, the PVTypeInfo contains the various archiving parameters for a PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@EndMethod
+@StartMethod
+/getStoresForPV
+org.epics.archiverappliance.mgmt.bpl.GetStoresForPV
+- Gets the names of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@EndMethod
+@StartMethod
+/getVersions
+org.epics.archiverappliance.mgmt.bpl.GetVersions
+- Get the versions of the various components for this appliance.
+@MethodDescDone
+@StartParam
+id 
+ The identity of the appliance for which we are requesting information. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+@EndParam
+@EndMethod
+@StartMethod
+/modifyMetaFields
+org.epics.archiverappliance.mgmt.bpl.ModifyMetaFieldsAction
+- Modify the fields (HIHI, LOLO etc) being archived as part of the PV. PV needs to be paused first.
+@MethodDescDone
+@StartParam
+pv 
+ The real name of the pv.
+@EndParam
+@StartParam
+command 
+ A command is a verb followed by a list of fields, all of them comma separated. Possible verbs are <code>add</code>, <code>remove</code> and <code>clear</code>. For example <code>add,ADEL,MDEL</code> will add the fields ADEL and MDEL if they are not already present. <code>clear</code> clears all the fields. You can have any number of commands.
+@EndParam
+@EndMethod
+@StartMethod
+/getNamedFlag
+org.epics.archiverappliance.mgmt.bpl.NamedFlagsGet
+- Get the value of the named flag specified by name
+@MethodDescDone
+@StartParam
+name 
+ the name of the named flag.
+@EndParam
+@EndMethod
+@StartMethod
+/setNamedFlag
+org.epics.archiverappliance.mgmt.bpl.NamedFlagsSet
+- Set the value of the named flag specified by name
+@MethodDescDone
+@StartParam
+name 
+ the name of the named flag.
+@EndParam
+@StartParam
+value 
+ Either true of false; something that Boolean.parse can understand.
+@EndParam
+@EndMethod
+@StartMethod
+/pauseArchivingPV
+org.epics.archiverappliance.mgmt.bpl.PauseArchivingPV
+- Pause archiving the specified PV. This also tears down the CA channel for this PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv. You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+@EndParam
+@EndMethod
+@StartMethod
+/putPVTypeInfo
+org.epics.archiverappliance.mgmt.bpl.PutPVTypeInfo
+- Updates the typeinfo for the specified PV. Note this merely updates the typeInfo. It does not have any logic to react to changes in the typeinfo. That is, don't assume that the PV is automatically paused just because you changed the isPaused to true. This is meant to be used in conjuction with other BPL to implement site-specific BPL in external code (for example, python). This can also be used to add PVTypeInfo's into the system; support for this is experimental. The new PVTypeInfo's are automatically paused before adding into the system.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@StartParam
+override 
+ If the PVTypeInfo for this PV already exists, do you want to update it or return an error? By default, this is false; this may change later.
+@EndParam
+@EndMethod
+@StartMethod
+/removeAlias
+org.epics.archiverappliance.mgmt.bpl.RemoveAliasAction
+- Remove an alias for the specified PV. This is only supported for PVs who have completed their archive PV workflow.
+@MethodDescDone
+@StartParam
+pv 
+ The real name of the pv.
+@EndParam
+@StartParam
+aliasname 
+ The alias name of the pv.
+@EndParam
+@EndMethod
+@StartMethod
+/renamePV
+org.epics.archiverappliance.mgmt.bpl.RenamePVAction
+- Rename this pv to a new name. The PV needs to be paused first.
+@MethodDescDone
+@StartParam
+pv 
+ The current name of the PV.
+@EndParam
+@StartParam
+newname 
+ The new name of the PV.
+@EndParam
+@EndMethod
+@StartMethod
+/reshardPV
+org.epics.archiverappliance.mgmt.bpl.ReshardPV
+- This BPL reassigns the PV to another appliance. This is a complex BPL that also moves data over to the other appliance. For more details on the sequence of steps, see the Javadoc for the BPL.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv. The PV needs to be paused first and will remain in a paused state after the resharding is complete.
+@EndParam
+@StartParam
+appliance 
+ The new appliance to assign the PV to. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+@EndParam
+@StartParam
+storage 
+ The name of the store until which we'll consolidate data before resharding. The data is moved over to the store with the same name on the new appliance. This is typically a string like LTS.
+@EndParam
+@EndMethod
+@StartMethod
+/resumeArchivingPV
+org.epics.archiverappliance.mgmt.bpl.ResumeArchivingPV
+- Resume archiving the specified PV.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv. You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+@EndParam
+@EndMethod
+@StartMethod
+/skipAliasCheck
+org.epics.archiverappliance.mgmt.bpl.SkipAliasCheckAction
+- For PVs that are still in the archive PV workflow, skip the alias check where we examine the .NAME field to determine the real name. This is useful if you have pCAS servers that overload the .NAME field for something else.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv as it is in the archive PV workflow.
+@EndParam
+@EndMethod
+@StartMethod
+/unarchivedPVs
+org.epics.archiverappliance.mgmt.bpl.UnarchivedPVsAction
+- Given a list of PVs, determine those that are not being archived/have pending requests.
+@MethodDescDone
+@StartParam
+pv 
+ A list of pv names. Send as a CSV using a POST.
+@EndParam
+@EndMethod
+@StartMethod
+/getCurrentlyDisconnectedPVs
+org.epics.archiverappliance.mgmt.bpl.reports.CurrentlyDisconnectedPVs
+- Get a list of PVs that are currently disconnected.
+@MethodDescDone
+@EndMethod
+@StartMethod
+/getPVsByDroppedEventsBuffer
+org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsBufferOverflowReport
+- Return a list of PVs sorted by number of times we've lost events because of buffer overflows; perhaps from a mismatch between the event rate and the sampling rate (as determined from the sampling period).
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getPVsByDroppedEventsTimestamp
+org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsTimestampReport
+- Return a list of PVs sorted by number of times we've lost events because of incorrect timestamps.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getPVsByDroppedEventsTypeChange
+org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsTypeChangeReport
+- Return a list of PVs sorted by number of times we've lost events because of changes in type of the underlying PV. This does not include PVs that have been paused.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getEventRateReport
+org.epics.archiverappliance.mgmt.bpl.reports.EventRateReport
+- Return a list of PVs sorted by descending event rate.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getLostConnectionsReport
+org.epics.archiverappliance.mgmt.bpl.reports.LostConnectionsReport
+- Return a list of PVs sorted by number of times we've lost/reestablished connections (descending) to the IOC hosting the PV. Can be used to determine if the IOC is being overloaded.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getNeverConnectedPVs
+org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsAction
+- Get a list of PVs that have never connected.
+@MethodDescDone
+@EndMethod
+@StartMethod
+/getPausedPVsReport
+org.epics.archiverappliance.mgmt.bpl.reports.PausedPVsReport
+- Return a list of PVs that are currently paused.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getPVDetails
+org.epics.archiverappliance.mgmt.bpl.reports.PVDetails
+- Get a lot of detailed statistics for a PV. The returned JSON is very UI friendly; but should be usable in a scripting environment.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv.
+@EndParam
+@EndMethod
+@StartMethod
+/getRecentlyAddedPVs
+org.epics.archiverappliance.mgmt.bpl.reports.RecentlyAddedPVs
+- Return a list of PVs sorted by descending PVTypeInfo creation timestamp.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getRecentlyModifiedPVs
+org.epics.archiverappliance.mgmt.bpl.reports.RecentlyChangedPVs
+- Return a list of PVs sorted by descending PVTypeInfo modification timestamp.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getSilentPVsReport
+org.epics.archiverappliance.mgmt.bpl.reports.SilentPVReport
+- Return a list of PVs sorted by the timestamp of the last event received (descending).
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getStorageRateReport
+org.epics.archiverappliance.mgmt.bpl.reports.StorageRateReport
+- Return a list of PVs sorted by descending storage rate.
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getArchivedWaveforms
+org.epics.archiverappliance.mgmt.bpl.reports.WaveformPVsAction
+- Get a list of waveform PVs that are currently being archived.
+@MethodDescDone
+@EndMethod

@@ -1,0 +1,681 @@
+<html>
+<head>
+<title>List of BPL available for scripting.</title>
+<style type="text/css">
+body {
+	margin: 1.0em;
+	background: white;
+	width: 1280px;
+}
+
+.bplelement  {
+	border-bottom: solid black thin;
+}
+
+.bplelement:first-child { 
+	border-top: solid black thin;
+}
+
+#content h1 {
+	font-size: large;
+	margin-bottom: 0.25em; 
+}
+
+
+</style>
+</head>
+<body>
+<section>
+<div>
+This document contains a list of all the business process logic (BPL) that is available and accesible for scripting. 
+Please see the appliance archiver <a href="../details.html#scripting">details</a> for a high level description and a small example.
+All the BPL is typically accessible thru the following process
+<ol>
+<li>Construct a URL (pointing to the mgmt web app) using the list below. For most BPL, you can point to any appliance in the cluster.</li>
+<li>Use a HTTP client to get the contents of this URL. For example, in python you can use <code>httplib</code> or <code>urllib2</code></li>
+<li>The contents of the response are typically JSON and can be parsed using a standard JSON parser. For example, in python you can use the standard <code>json</code> package.</li>
+</ol>
+
+</div>
+</section>
+
+<section id="content">
+<div class="bplelement"><h1>
+/getAllPVs
+</h1><div>
+- Get all the PVs in the cluster. Note this call can return millions of PVs
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetAllPVs.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ An optional argument that can contain a <a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">GLOB</a> wildcard. We will return PVs that match this GLOB. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>. If both pv and regex are unspecified, we match against all PVs.
+</dd>
+<dt>
+regex 
+</dt>
+<dd>
+ An optional argument that can contain a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html">Java regex</a> wildcard. We will return PVs that match this regex. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+</dd>
+<dt>
+limit 
+</dt>
+<dd>
+ An optional argument that specifies the number of matched PV's that are retured. If unspecified, we return 500 PV names. To get all the PV names, (potentially in the millions), set limit to 1.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVStatus
+</h1><div>
+- Get the status of a PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetPVStatusAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name(s) of the pv for which status is to be determined. If a pv is not being archived, you should get back a simple JSON object with a status string of "Not being archived." You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVTypeInfo
+</h1><div>
+- Get the type info for a given PV. In the archiver appliance terminology, the PVTypeInfo contains the various archiving parameters for a PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetPVTypeInfo.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/archivePV
+</h1><div>
+- Archive one or more PV's.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ArchivePVAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv to be archived. If archiving more than one PV, use a comma separated list. You can also send the PV list as part of the POST body using standard techniques. If you need to specify different archiving parameters for each PV, send the data as a JSON array (remember to send the content type correctly).
+</dd>
+<dt>
+samplingperiod 
+</dt>
+<dd>
+ The sampling period to be used. Optional, default value is 1.0 seconds.
+</dd>
+<dt>
+samplingmethod 
+</dt>
+<dd>
+ The sampling method to be used. For now, this is one of SCAN or MONITOR. Optional, default value is MONITOR.
+</dd>
+<dt>
+controllingPV 
+</dt>
+<dd>
+ The controlling PV for coditional archiving. Optional; if unspecified, we do not use conditional archiving.
+</dd>
+<dt>
+policy 
+</dt>
+<dd>
+ Override the policy execution process and use this policy instead. Optional; if unspecified, we go thru the normal policy execution process.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/pauseArchivingPV
+</h1><div>
+- Pause archiving the specified PV. This also tears down the CA channel for this PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/PauseArchivingPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv. You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/resumeArchivingPV
+</h1><div>
+- Resume archiving the specified PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ResumeArchivingPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv. You can also pass in GLOB wildcards here and multiple PVs as a comma separated list. If you have more PVs that can fit in a GET, send the pv's as a CSV <code>pv=pv1,pv2,pv3</code> as the body of a POST.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getStoresForPV
+</h1><div>
+- Gets the names of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetStoresForPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/consolidateDataForPV
+</h1><div>
+- Consolidate the data for this PV until the specified store. The PV needs to be paused first.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ConsolidatePBFilesForOnePV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+<dt>
+storage 
+</dt>
+<dd>
+ The name of the store until which we'll consolidate data. This is typically a string like STS or MTS. To get a list of names of stores for a PV, please see /getStoresForPV
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/deletePV
+</h1><div>
+- Stop archiving the specified PV. The PV needs to be paused first.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/DeletePV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+<dt>
+deleteData 
+</dt>
+<dd>
+ Should we delete the data that has already been recorded. Optional, by default, we do not delete the data for this PV. Can be <code>true</code> or <code>false</code>.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/abortArchivingPV
+</h1><div>
+- Abort any pending requests for archiving this PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/AbortArchiveRequest.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the PV.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/changeArchivalParameters
+</h1><div>
+- Change the archival parameters for a PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ChangeArchivalParamsAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+<dt>
+samplingperiod 
+</dt>
+<dd>
+ The new sampling period in seconds.
+</dd>
+<dt>
+samplingmethod 
+</dt>
+<dd>
+ The new sampling method  For now, this is one of SCAN or MONITOR.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVDetails
+</h1><div>
+- Get a lot of detailed statistics for a PV. The returned JSON is very UI friendly; but should be usable in a scripting environment.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/PVDetails.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getApplianceInfo
+</h1><div>
+- Get the appliance information for the specified appliance.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetApplianceInfo.html">javadoc</a><div><dl>
+<dt>
+id 
+</dt>
+<dd>
+ The identity of the appliance for which we are requesting information. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getAppliancesInCluster
+</h1><div>
+- Get the appliance information for all the appliances in the cluster that are active.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetAppliancesInCluster.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/renamePV
+</h1><div>
+- Rename this pv to a new name. The PV needs to be paused first.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/RenamePVAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The current name of the PV.
+</dd>
+<dt>
+newname 
+</dt>
+<dd>
+ The new name of the PV.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/reshardPV
+</h1><div>
+- This BPL reassigns the PV to another appliance. This is a complex BPL that also moves data over to the other appliance. For more details on the sequence of steps, see the Javadoc for the BPL.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ReshardPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv. The PV needs to be paused first and will remain in a paused state after the resharding is complete.
+</dd>
+<dt>
+appliance 
+</dt>
+<dd>
+ The new appliance to assign the PV to. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+</dd>
+<dt>
+storage 
+</dt>
+<dd>
+ The name of the store until which we'll consolidate data before resharding. The data is moved over to the store with the same name on the new appliance. This is typically a string like LTS.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/addAlias
+</h1><div>
+- Add an alias for the specified PV.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/AddAliasAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The real name of the pv.
+</dd>
+<dt>
+aliasname 
+</dt>
+<dd>
+ The alias name of the pv. Note, we cannot have a PVTypeInfo mapped to the alias name.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/removeAlias
+</h1><div>
+- Remove an alias for the specified PV. This is only supported for PVs who have completed their archive PV workflow.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/RemoveAliasAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The real name of the pv.
+</dd>
+<dt>
+aliasname 
+</dt>
+<dd>
+ The alias name of the pv.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/skipAliasCheck
+</h1><div>
+- For PVs that are still in the archive PV workflow, skip the alias check where we examine the .NAME field to determine the real name. This is useful if you have pCAS servers that overload the .NAME field for something else.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/SkipAliasCheckAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv as it is in the archive PV workflow.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/changeTypeForPV
+</h1><div>
+- Change the type of the PV to the specified type. The PV needs to be paused first. For best results, consolidate all the data to one store. Note, this is actually changing the data so you should make a backup just in case. There is every chance that this may leave the data for this PV in an inconsistent state. It is also possible that the plugin may do nothing in which case you may have to rename the existing PV to a new PV; delete this PV and issue a fresh archival request.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ChangeTypeForPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+<dt>
+newtype 
+</dt>
+<dd>
+ The new type  one of the ArchDBRTypes. For example, DBR_SCALAR_DOUBLE.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getVersions
+</h1><div>
+- Get the versions of the various components for this appliance.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetVersions.html">javadoc</a><div><dl>
+<dt>
+id 
+</dt>
+<dd>
+ The identity of the appliance for which we are requesting information. This is the same string as the <code>identity</code> element in the <code>appliances.xml</code> that identifies this appliance.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/modifyMetaFields
+</h1><div>
+- Modify the fields (HIHI, LOLO etc) being archived as part of the PV. PV needs to be paused first.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ModifyMetaFieldsAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The real name of the pv.
+</dd>
+<dt>
+command 
+</dt>
+<dd>
+ A command is a verb followed by a list of fields, all of them comma separated. Possible verbs are <code>add</code>, <code>remove</code> and <code>clear</code>. For example <code>add,ADEL,MDEL</code> will add the fields ADEL and MDEL if they are not already present. <code>clear</code> clears all the fields. You can have any number of commands.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getNamedFlag
+</h1><div>
+- Get the value of the named flag specified by name
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/NamedFlagsGet.html">javadoc</a><div><dl>
+<dt>
+name 
+</dt>
+<dd>
+ the name of the named flag.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/setNamedFlag
+</h1><div>
+- Set the value of the named flag specified by name
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/NamedFlagsSet.html">javadoc</a><div><dl>
+<dt>
+name 
+</dt>
+<dd>
+ the name of the named flag.
+</dd>
+<dt>
+value 
+</dt>
+<dd>
+ Either true of false; something that Boolean.parse can understand.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getNeverConnectedPVs
+</h1><div>
+- Get a list of PVs that have never connected.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/NeverConnectedPVsAction.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getCurrentlyDisconnectedPVs
+</h1><div>
+- Get a list of PVs that are currently disconnected.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/CurrentlyDisconnectedPVs.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getEventRateReport
+</h1><div>
+- Return a list of PVs sorted by descending event rate.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/EventRateReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getStorageRateReport
+</h1><div>
+- Return a list of PVs sorted by descending storage rate.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/StorageRateReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getRecentlyAddedPVs
+</h1><div>
+- Return a list of PVs sorted by descending PVTypeInfo creation timestamp.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/RecentlyAddedPVs.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getRecentlyModifiedPVs
+</h1><div>
+- Return a list of PVs sorted by descending PVTypeInfo modification timestamp.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/RecentlyChangedPVs.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getLostConnectionsReport
+</h1><div>
+- Return a list of PVs sorted by number of times we've lost/reestablished connections (descending) to the IOC hosting the PV. Can be used to determine if the IOC is being overloaded.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/LostConnectionsReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getSilentPVsReport
+</h1><div>
+- Return a list of PVs sorted by the timestamp of the last event received (descending).
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/SilentPVReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVsByDroppedEventsTimestamp
+</h1><div>
+- Return a list of PVs sorted by number of times we've lost events because of incorrect timestamps.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/DroppedEventsTimestampReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVsByDroppedEventsBuffer
+</h1><div>
+- Return a list of PVs sorted by number of times we've lost events because of buffer overflows; perhaps from a mismatch between the event rate and the sampling rate (as determined from the sampling period).
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/DroppedEventsBufferOverflowReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPVsByDroppedEventsTypeChange
+</h1><div>
+- Return a list of PVs sorted by number of times we've lost events because of changes in type of the underlying PV. This does not include PVs that have been paused.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/DroppedEventsTypeChangeReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getPausedPVsReport
+</h1><div>
+- Return a list of PVs that are currently paused.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/PausedPVsReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getArchivedWaveforms
+</h1><div>
+- Get a list of waveform PVs that are currently being archived.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/WaveformPVsAction.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getMatchingPVsForThisAppliance
+</h1><div>
+- Get matching PV's for this appliance. Specify one of pv or regex. If both are specified, we only apply the pv wildcard. If neither is specified, we return an empty list.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetMatchingPVsForAppliance.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ An optional argument that can contain a <a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">GLOB</a> wildcard. We will return PVs that match this GLOB. For example, if <code>pv=KLYS*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+</dd>
+<dt>
+regex 
+</dt>
+<dd>
+ An optional argument that can contain a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html">Java regex</a> wildcard. We will return PVs that match this regex. For example, if <code>pv=KLYS.*</code>, the server will return all PVs that start with the string <code>KLYS</code>.
+</dd>
+<dt>
+limit 
+</dt>
+<dd>
+ An optional argument that specifies the number of matched PV's that are returned. If unspecified, we return 500 PV names. To get all the PV names, (potentially in the millions), set limit to 1.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/putPVTypeInfo
+</h1><div>
+- Updates the typeinfo for the specified PV. Note this merely updates the typeInfo. It does not have any logic to react to changes in the typeinfo. That is, don't assume that the PV is automatically paused just because you changed the isPaused to true. This is meant to be used in conjuction with other BPL to implement site-specific BPL in external code (for example, python). This can also be used to add PVTypeInfo's into the system; support for this is experimental. The new PVTypeInfo's are automatically paused before adding into the system.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/PutPVTypeInfo.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv.
+</dd>
+<dt>
+override 
+</dt>
+<dd>
+ If the PVTypeInfo for this PV already exists, do you want to update it or return an error? By default, this is false; this may change later.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/unarchivedPVs
+</h1><div>
+- Given a list of PVs, determine those that are not being archived/have pending requests.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/UnarchivedPVsAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ A list of pv names. Send as a CSV using a POST.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/archivedPVsNotInList
+</h1><div>
+- Given a list of PVs, determine those that are being archived but are not in the incoming list.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ArchivedPVsNotInListAction.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ A list of pv names. Send as a CSV using a POST, or as a JSON.
+</dd>
+</dl></div>
+</div>
+</section>
+
+</body>
+</html>
