@@ -52,10 +52,10 @@
 /getInstanceMetricsForAppliance=org.epics.archiverappliance.mgmt.bpl.reports.InstanceReportDetails
 /getApplianceMetrics=org.epics.archiverappliance.mgmt.bpl.reports.ApplianceMetrics
 /getApplianceMetricsForAppliance=org.epics.archiverappliance.mgmt.bpl.reports.ApplianceMetricsDetails
-/getChannelArchiverServers=org.epics.archiverappliance.mgmt.bpl.ChannelArchiverListView
-/addChannelArchiverServer=org.epics.archiverappliance.mgmt.bpl.AddChannelArchiverServer
-/addChannelArchiverServerArchives=org.epics.archiverappliance.mgmt.bpl.AddChannelArchiverServerArchives
-/removeChannelArchiverServer=org.epics.archiverappliance.mgmt.bpl.RemoveChannelArchiverServer
+/getExternalArchiverServers=org.epics.archiverappliance.mgmt.bpl.ChannelArchiverListView
+/addExternalArchiverServer=org.epics.archiverappliance.mgmt.bpl.AddExternalArchiverServer
+/addExternalArchiverServerArchives=org.epics.archiverappliance.mgmt.bpl.AddExternalArchiverServerArchives
+/removeExternalArchiverServer=org.epics.archiverappliance.mgmt.bpl.RemoveExternalArchiverServer
 /test/compareWithChannelArchiver=org.epics.archiverappliance.mgmt.bpl.cahdlers.CompareWithChannelArchiver
 /getAggregatedApplianceInfo=org.epics.archiverappliance.mgmt.bpl.AggregatedApplianceInfo
 /importDataFromPlugin=org.epics.archiverappliance.mgmt.bpl.ImportDataFromPlugin
