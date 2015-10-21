@@ -57,6 +57,10 @@ controllingPV
 policy 
  Override the policy execution process and use this policy instead. Optional; if unspecified, we go thru the normal policy execution process.
 @EndParam
+@StartParam
+appliance 
+ Optional; you can specify an appliance in a cluster. If specified (value is the identity of the appliance), the sampling and archiving are done on the specified appliance.
+@EndParam
 @EndMethod
 @StartMethod
 /changeArchivalParameters
