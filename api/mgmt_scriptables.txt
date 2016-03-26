@@ -23,6 +23,16 @@ aliasname
 @EndParam
 @EndMethod
 @StartMethod
+/archivedPVs
+org.epics.archiverappliance.mgmt.bpl.ArchivedPVsAction
+- Given a list of PVs, determine those that are being archived.
+@MethodDescDone
+@StartParam
+pv 
+ A list of pv names. Send as a CSV using a POST.
+@EndParam
+@EndMethod
+@StartMethod
 /archivedPVsNotInList
 org.epics.archiverappliance.mgmt.bpl.ArchivedPVsNotInListAction
 - Given a list of PVs, determine those that are being archived but are not in the incoming list.
