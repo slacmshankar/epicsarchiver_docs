@@ -275,7 +275,7 @@ pv
 @StartMethod
 /putPVTypeInfo
 org.epics.archiverappliance.mgmt.bpl.PutPVTypeInfo
-- Updates the typeinfo for the specified PV. Note this merely updates the typeInfo. It does not have any logic to react to changes in the typeinfo. That is, don't assume that the PV is automatically paused just because you changed the isPaused to true. This is meant to be used in conjuction with other BPL to implement site-specific BPL in external code (for example, python). This can also be used to add PVTypeInfo's into the system; support for this is experimental. The new PVTypeInfo's are automatically paused before adding into the system.
+- Updates the typeinfo for the specified PV. Note this merely updates the typeInfo. It does not have any logic to react to changes in the typeinfo. That is, don't assume that the PV is automatically paused just because you changed the isPaused to true. This is meant to be used in conjuction with other BPL to implement site-specific BPL in external code (for example, python). This can also be used to add PVTypeInfo's into the system; support for this is experimental. The new PVTypeInfo's are automatically paused before adding into the system. Logically, you have to specify at least one of override or createnew.
 @MethodDescDone
 @StartParam
 pv 
@@ -283,7 +283,11 @@ pv
 @EndParam
 @StartParam
 override 
- If the PVTypeInfo for this PV already exists, do you want to update it or return an error? By default, this is false; this may change later.
+ If the PVTypeInfo for this PV already exists, do you want to update it or return an error? By default, this is false.
+@EndParam
+@StartParam
+createnew 
+ If the PVTypeInfo for this PV does not exist, do you want to create a new one or return an error? By default, this is false.
 @EndParam
 @EndMethod
 @StartMethod
