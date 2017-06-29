@@ -66,6 +66,13 @@ limit
 </dl></div>
 </div>
 <div class="bplelement"><h1>
+/getAllExpandedPVNames
+</h1><div>
+- Get all expanded PV names in the cluster. This is targeted at automation and should return the PV's being archived, the fields, .VAL's, aliases and PV's in the archive workflow. Note this call can return 10's of millions of names.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetAllExpandedPVNames.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
 /getPVStatus
 </h1><div>
 - Get the status of a PV.
@@ -664,13 +671,13 @@ createnew
 <div class="bplelement"><h1>
 /unarchivedPVs
 </h1><div>
-- Given a list of PVs, determine those that are not being archived/have pending requests.
+- Given a list of PVs, determine those that are not being archived/have pending requests/have aliases.
 </div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/UnarchivedPVsAction.html">javadoc</a><div><dl>
 <dt>
 pv 
 </dt>
 <dd>
- A list of pv names. Send as a CSV using a POST.
+ A list of pv names. Send as a CSV using a POST or JSON array.
 </dd>
 </dl></div>
 </div>

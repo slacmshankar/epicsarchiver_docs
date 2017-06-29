@@ -1,5 +1,6 @@
 #Path mappings for mgmt BPLs
 /getAllPVs=org.epics.archiverappliance.mgmt.bpl.GetAllPVs
+/getAllExpandedPVNames=org.epics.archiverappliance.mgmt.bpl.GetAllExpandedPVNames
 /getPVStatus=org.epics.archiverappliance.mgmt.bpl.GetPVStatusAction
 /getPVTypeInfo=org.epics.archiverappliance.mgmt.bpl.GetPVTypeInfo
 /archivePV=org.epics.archiverappliance.mgmt.bpl.ArchivePVAction

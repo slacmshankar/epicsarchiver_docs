@@ -133,6 +133,12 @@ deleteData
 @EndParam
 @EndMethod
 @StartMethod
+/getAllExpandedPVNames
+org.epics.archiverappliance.mgmt.bpl.GetAllExpandedPVNames
+- Get all expanded PV names in the cluster. This is targeted at automation and should return the PV's being archived, the fields, .VAL's, aliases and PV's in the archive workflow. Note this call can return 10's of millions of names.
+@MethodDescDone
+@EndMethod
+@StartMethod
 /getAllPVs
 org.epics.archiverappliance.mgmt.bpl.GetAllPVs
 - Get all the PVs in the cluster. Note this call can return millions of PVs
@@ -359,11 +365,11 @@ pv
 @StartMethod
 /unarchivedPVs
 org.epics.archiverappliance.mgmt.bpl.UnarchivedPVsAction
-- Given a list of PVs, determine those that are not being archived/have pending requests.
+- Given a list of PVs, determine those that are not being archived/have pending requests/have aliases.
 @MethodDescDone
 @StartParam
 pv 
- A list of pv names. Send as a CSV using a POST.
+ A list of pv names. Send as a CSV using a POST or JSON array.
 @EndParam
 @EndMethod
 @StartMethod
