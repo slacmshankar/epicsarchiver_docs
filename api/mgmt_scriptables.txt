@@ -495,6 +495,12 @@ limit
 @EndParam
 @EndMethod
 @StartMethod
+/getTimeSpanReport
+org.epics.archiverappliance.mgmt.bpl.reports.TimeSpanReport
+- Archiving time span; when we first added the PV to the system, last known timestamp (if available), paused or not.
+@MethodDescDone
+@EndMethod
+@StartMethod
 /getArchivedWaveforms
 org.epics.archiverappliance.mgmt.bpl.reports.WaveformPVsAction
 - Get a list of waveform PVs that are currently being archived.

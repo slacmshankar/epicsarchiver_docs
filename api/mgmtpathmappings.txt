@@ -46,6 +46,7 @@
 /getPausedPVsReport=org.epics.archiverappliance.mgmt.bpl.reports.PausedPVsReport
 /getPausedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.GetPausedPVsForThisAppliance
 /getArchivedWaveforms=org.epics.archiverappliance.mgmt.bpl.reports.WaveformPVsAction
+/getTimeSpanReport=org.epics.archiverappliance.mgmt.bpl.reports.TimeSpanReport
 /getPolicyText=org.epics.archiverappliance.mgmt.policy.GetPolicyText
 /exportConfig=org.epics.archiverappliance.mgmt.bpl.ExportConfig
 /exportConfigForAppliance=org.epics.archiverappliance.mgmt.bpl.ExportConfigForThisInstance
@@ -67,6 +68,7 @@
 /getProcessMetricsDataForAppliance=org.epics.archiverappliance.common.ProcessMetricsChartData
 /refreshPVDataFromChannelArchivers=org.epics.archiverappliance.mgmt.bpl.RefreshPVDataFromChannelArchivers
 /getMatchingPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.GetMatchingPVsForAppliance
+/getCreationReportForAppliance=org.epics.archiverappliance.mgmt.bpl.reports.CreationTimeReportForAppliance
 /importChannelArchiverConfiguration=org.epics.archiverappliance.mgmt.bpl.ImportChannelArchiverConfigAction
 /uploadChannelArchiverConfiguration=org.epics.archiverappliance.mgmt.bpl.UploadChannelArchiverConfigAction
 /importConfig=org.epics.archiverappliance.mgmt.bpl.ImportConfig
