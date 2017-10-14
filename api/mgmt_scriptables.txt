@@ -429,6 +429,12 @@ limit
 @EndParam
 @EndMethod
 @StartMethod
+/getMetaGets
+org.epics.archiverappliance.mgmt.bpl.reports.MetaGetsAction
+- Get a list of PVs that are currently in METAINFO_REQUESTED state.
+@MethodDescDone
+@EndMethod
+@StartMethod
 /getNeverConnectedPVs
 org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsAction
 - Get a list of PVs that have never connected.

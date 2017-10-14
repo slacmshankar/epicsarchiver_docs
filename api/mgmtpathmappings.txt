@@ -27,6 +27,7 @@
 /setNamedFlag=org.epics.archiverappliance.mgmt.bpl.NamedFlagsSet
 /getNeverConnectedPVs=org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsAction
 /getNeverConnectedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsForThisAppliance
+/getMetaGets=org.epics.archiverappliance.mgmt.bpl.reports.MetaGetsAction
 /getCurrentlyDisconnectedPVs=org.epics.archiverappliance.mgmt.bpl.reports.CurrentlyDisconnectedPVs
 /getEventRateReport=org.epics.archiverappliance.mgmt.bpl.reports.EventRateReport
 /getStorageRateReport=org.epics.archiverappliance.mgmt.bpl.reports.StorageRateReport
