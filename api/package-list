@@ -35,6 +35,8 @@ org.epics.archiverappliance.mgmt.bpl
 org.epics.archiverappliance.mgmt.bpl.cahdlers
 org.epics.archiverappliance.mgmt.bpl.reports
 org.epics.archiverappliance.mgmt.policy
+org.epics.archiverappliance.mgmt.pva
+org.epics.archiverappliance.mgmt.pva.actions
 org.epics.archiverappliance.retrieval
 org.epics.archiverappliance.retrieval.bpl
 org.epics.archiverappliance.retrieval.bpl.reports
@@ -42,6 +44,7 @@ org.epics.archiverappliance.retrieval.channelarchiver
 org.epics.archiverappliance.retrieval.client
 org.epics.archiverappliance.retrieval.mimeresponses
 org.epics.archiverappliance.retrieval.postprocessors
+org.epics.archiverappliance.retrieval.pva
 org.epics.archiverappliance.retrieval.workers
 org.epics.archiverappliance.utils.blackhole
 org.epics.archiverappliance.utils.imprt
