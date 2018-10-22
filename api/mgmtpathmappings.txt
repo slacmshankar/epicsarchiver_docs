@@ -77,5 +77,5 @@
 /putPVTypeInfo=org.epics.archiverappliance.mgmt.bpl.PutPVTypeInfo
 /unarchivedPVs=org.epics.archiverappliance.mgmt.bpl.UnarchivedPVsAction
 /archivedPVs=org.epics.archiverappliance.mgmt.bpl.ArchivedPVsAction
-/archivedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.ArchivedPVsAction
+/archivedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.ArchivedPVsForThisApplianceAction
 /archivedPVsNotInList=org.epics.archiverappliance.mgmt.bpl.ArchivedPVsNotInListAction
