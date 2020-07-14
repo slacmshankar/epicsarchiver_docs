@@ -23,6 +23,24 @@ aliasname
 @EndParam
 @EndMethod
 @StartMethod
+/appendAndAliasPV
+org.epics.archiverappliance.mgmt.bpl.AppendAndAliasPV
+- This BPL appends the data for an older PV into a newer PV. The older PV is deleted and an alias mapping the older PV name to the new PV is added.
+@MethodDescDone
+@StartParam
+olderpv 
+ The name of the older pv. The data for this PV will be appended to the newer PV and then deleted.
+@EndParam
+@StartParam
+newerPV 
+ The name of the newer pv.
+@EndParam
+@StartParam
+storage 
+ The name of the store until which we'll consolidate data before appending. This is typically a string like LTS.
+@EndParam
+@EndMethod
+@StartMethod
 /archivedPVs
 org.epics.archiverappliance.mgmt.bpl.ArchivedPVsAction
 - Given a list of PVs, determine those that are being archived.

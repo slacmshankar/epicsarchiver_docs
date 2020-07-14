@@ -334,6 +334,31 @@ storage
 </dl></div>
 </div>
 <div class="bplelement"><h1>
+/appendAndAliasPV
+</h1><div>
+- This BPL appends the data for an older PV into a newer PV. The older PV is deleted and an alias mapping the older PV name to the new PV is added.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/AppendAndAliasPV.html">javadoc</a><div><dl>
+<dt>
+olderpv 
+</dt>
+<dd>
+ The name of the older pv. The data for this PV will be appended to the newer PV and then deleted.
+</dd>
+<dt>
+newerPV 
+</dt>
+<dd>
+ The name of the newer pv.
+</dd>
+<dt>
+storage 
+</dt>
+<dd>
+ The name of the store until which we'll consolidate data before appending. This is typically a string like LTS.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
 /addAlias
 </h1><div>
 - Add an alias for the specified PV.

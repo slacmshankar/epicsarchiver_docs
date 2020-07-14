@@ -17,6 +17,7 @@
 /getAppliancesInCluster=org.epics.archiverappliance.mgmt.bpl.GetAppliancesInCluster
 /renamePV=org.epics.archiverappliance.mgmt.bpl.RenamePVAction
 /reshardPV=org.epics.archiverappliance.mgmt.bpl.ReshardPV
+/appendAndAliasPV=org.epics.archiverappliance.mgmt.bpl.AppendAndAliasPV
 /addAlias=org.epics.archiverappliance.mgmt.bpl.AddAliasAction
 /removeAlias=org.epics.archiverappliance.mgmt.bpl.RemoveAliasAction
 /skipAliasCheck=org.epics.archiverappliance.mgmt.bpl.SkipAliasCheckAction
