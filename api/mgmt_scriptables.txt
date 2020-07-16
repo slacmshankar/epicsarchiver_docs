@@ -32,7 +32,7 @@ olderpv
  The name of the older pv. The data for this PV will be appended to the newer PV and then deleted.
 @EndParam
 @StartParam
-newerPV 
+newerpv 
  The name of the newer pv.
 @EndParam
 @StartParam
