@@ -7,6 +7,7 @@ edu.stanford.slac.archiverappliance.PlainPB
 edu.stanford.slac.archiverappliance.PlainPB.utils
 org.epics.archiverappliance
 org.epics.archiverappliance.common
+org.epics.archiverappliance.common.mergededup
 org.epics.archiverappliance.common.taglets
 org.epics.archiverappliance.config
 org.epics.archiverappliance.config.ChannelArchiver

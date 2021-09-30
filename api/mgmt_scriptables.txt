@@ -151,6 +151,12 @@ deleteData
 @EndParam
 @EndMethod
 @StartMethod
+/getAllAliases
+org.epics.archiverappliance.mgmt.bpl.GetAllAliasesAction
+- Get all the aliases in the cluster and the PV's they are mapped to.
+@MethodDescDone
+@EndMethod
+@StartMethod
 /getAllExpandedPVNames
 org.epics.archiverappliance.mgmt.bpl.GetAllExpandedPVNames
 - Get all expanded PV names in the cluster. This is targeted at automation and should return the PV's being archived, the fields, .VAL's, aliases and PV's in the archive workflow. Note this call can return 10's of millions of names.
@@ -229,9 +235,15 @@ pv
 @EndParam
 @EndMethod
 @StartMethod
+/getTypeInfoKeys
+org.epics.archiverappliance.mgmt.bpl.GetPVTypeInfoKeys
+- Get a list of all the PV names that have a PVTypeInfo.
+@MethodDescDone
+@EndMethod
+@StartMethod
 /getStoresForPV
 org.epics.archiverappliance.mgmt.bpl.GetStoresForPV
-- Gets the names of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV.
+- Gets the names and definitions of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV with their URI representations as a dictionary.
 @MethodDescDone
 @StartParam
 pv 
@@ -249,6 +261,32 @@ id
 @EndParam
 @EndMethod
 @StartMethod
+/mergeInData
+org.epics.archiverappliance.mgmt.bpl.MergeInDataFromExternalStore
+- Manually merges in data from an external appliance that is used for failover.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv; the PV needs to be paused. It's probably also a good idea to consolidate the data to the store being used for merging.
+@EndParam
+@StartParam
+other 
+ This is the <code>data_retrieval_url</code> of the other appliance.
+@EndParam
+@StartParam
+storage 
+ The name of the data store (LTS etc) to merge the data into. Please consolidate the data into this store to make sure merging in later data from the remote store does not result in losing data in the other stores on this appliance.
+@EndParam
+@StartParam
+from 
+ The start time for the retrieval request to the other server  defaults to 2 months ago.
+@EndParam
+@StartParam
+to 
+ The end time for the retrieval request to the other server  defaults to a month from now.
+@EndParam
+@EndMethod
+@StartMethod
 /modifyMetaFields
 org.epics.archiverappliance.mgmt.bpl.ModifyMetaFieldsAction
 - Modify the fields (HIHI, LOLO etc) being archived as part of the PV. PV needs to be paused first.
@@ -260,6 +298,24 @@ pv
 @StartParam
 command 
  A command is a verb followed by a list of fields, all of them comma separated. Possible verbs are <code>add</code>, <code>remove</code> and <code>clear</code>. For example <code>add,ADEL,MDEL</code> will add the fields ADEL and MDEL if they are not already present. <code>clear</code> clears all the fields. You can have any number of commands.
+@EndParam
+@EndMethod
+@StartMethod
+/modifyStoreURLForPV
+org.epics.archiverappliance.mgmt.bpl.ModifyStoreURLForPV
+- Changes the store for this particular PV. Note this only changes the PVTypeInfo; it does not change any data/files so one could lose data using this call.
+@MethodDescDone
+@StartParam
+pv 
+ The name of the pv
+@EndParam
+@StartParam
+storage 
+ The name of the store to change ( for example, MTS )
+@EndParam
+@StartParam
+plugin_url 
+ The new URL specification for this store; this is what you would have used in the policy file and is something that can be understood by <a href="../api/org/epics/archiverappliance/config/StoragePluginURLParser.html">StoragePluginURLParser</a>.
 @EndParam
 @EndMethod
 @StartMethod
@@ -341,6 +397,12 @@ pv
 newname 
  The new name of the PV.
 @EndParam
+@EndMethod
+@StartMethod
+/resetFailoverCaches
+org.epics.archiverappliance.mgmt.bpl.ResetFailoverCaches
+- Reset the failover caches for all the retrieval components in this cluster.
+@MethodDescDone
 @EndMethod
 @StartMethod
 /reshardPV
@@ -502,6 +564,16 @@ limit
 /getSilentPVsReport
 org.epics.archiverappliance.mgmt.bpl.reports.SilentPVReport
 - Return a list of PVs sorted by the timestamp of the last event received (descending).
+@MethodDescDone
+@StartParam
+limit 
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+@EndParam
+@EndMethod
+@StartMethod
+/getSlowChangingPVsWithDroppedEvents
+org.epics.archiverappliance.mgmt.bpl.reports.SlowChangingPVsWithDroppedEvents
+- Return a list of PVs which have lost more events than events from the IOC sorted by number of times we've lost events. This does not include PVs that have been paused.
 @MethodDescDone
 @StartParam
 limit 

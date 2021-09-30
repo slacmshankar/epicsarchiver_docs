@@ -7,6 +7,7 @@
 /pauseArchivingPV=org.epics.archiverappliance.mgmt.bpl.PauseArchivingPV
 /resumeArchivingPV=org.epics.archiverappliance.mgmt.bpl.ResumeArchivingPV
 /getStoresForPV=org.epics.archiverappliance.mgmt.bpl.GetStoresForPV
+/modifyStoreURLForPV=org.epics.archiverappliance.mgmt.bpl.ModifyStoreURLForPV
 /consolidateDataForPV=org.epics.archiverappliance.mgmt.bpl.ConsolidatePBFilesForOnePV
 /deletePV=org.epics.archiverappliance.mgmt.bpl.DeletePV
 /abortArchivingPV=org.epics.archiverappliance.mgmt.bpl.AbortArchiveRequest
@@ -20,12 +21,16 @@
 /appendAndAliasPV=org.epics.archiverappliance.mgmt.bpl.AppendAndAliasPV
 /addAlias=org.epics.archiverappliance.mgmt.bpl.AddAliasAction
 /removeAlias=org.epics.archiverappliance.mgmt.bpl.RemoveAliasAction
+/getAllAliases=org.epics.archiverappliance.mgmt.bpl.GetAllAliasesAction
 /skipAliasCheck=org.epics.archiverappliance.mgmt.bpl.SkipAliasCheckAction
 /changeTypeForPV=org.epics.archiverappliance.mgmt.bpl.ChangeTypeForPV
+/mergeInData=org.epics.archiverappliance.mgmt.bpl.MergeInDataFromExternalStore
+/resetFailoverCaches=org.epics.archiverappliance.mgmt.bpl.ResetFailoverCaches
 /getVersions=org.epics.archiverappliance.mgmt.bpl.GetVersions
 /modifyMetaFields=org.epics.archiverappliance.mgmt.bpl.ModifyMetaFieldsAction
 /getNamedFlag=org.epics.archiverappliance.mgmt.bpl.NamedFlagsGet
 /setNamedFlag=org.epics.archiverappliance.mgmt.bpl.NamedFlagsSet
+/getTypeInfoKeys=org.epics.archiverappliance.mgmt.bpl.GetPVTypeInfoKeys
 /getNeverConnectedPVs=org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsAction
 /getNeverConnectedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.reports.NeverConnectedPVsForThisAppliance
 /getMetaGets=org.epics.archiverappliance.mgmt.bpl.reports.MetaGetsAction
@@ -45,6 +50,7 @@
 /getPVsByDroppedEventsTimestamp=org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsTimestampReport
 /getPVsByDroppedEventsBuffer=org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsBufferOverflowReport
 /getPVsByDroppedEventsTypeChange=org.epics.archiverappliance.mgmt.bpl.reports.DroppedEventsTypeChangeReport
+/getSlowChangingPVsWithDroppedEvents=org.epics.archiverappliance.mgmt.bpl.reports.SlowChangingPVsWithDroppedEvents
 /getPausedPVsReport=org.epics.archiverappliance.mgmt.bpl.reports.PausedPVsReport
 /getPausedPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.GetPausedPVsForThisAppliance
 /getArchivedWaveforms=org.epics.archiverappliance.mgmt.bpl.reports.WaveformPVsAction

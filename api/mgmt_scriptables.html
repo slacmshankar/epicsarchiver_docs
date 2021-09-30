@@ -32,7 +32,7 @@ Please see the appliance archiver <a href="../details.html#scripting">details</a
 All the BPL is typically accessible thru the following process
 <ol>
 <li>Construct a URL (pointing to the mgmt web app) using the list below. For most BPL, you can point to any appliance in the cluster.</li>
-<li>Use a HTTP client to get the contents of this URL. For example, in python you can use <code>httplib</code> or <code>urllib2</code></li>
+<li>Use a HTTP client to get the contents of this URL. For example, in python, the <code>requests</code> package is very well suited for this.</li>
 <li>The contents of the response are typically JSON and can be parsed using a standard JSON parser. For example, in python you can use the standard <code>json</code> package.</li>
 </ol>
 
@@ -170,13 +170,38 @@ pv
 <div class="bplelement"><h1>
 /getStoresForPV
 </h1><div>
-- Gets the names of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV.
+- Gets the names and definitions of the data stores for this PV. Every store in a PV's typeinfo is expected to have a name - this is typically "name=STS" or something similar. This call returns the names of all the stores for a PV with their URI representations as a dictionary.
 </div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetStoresForPV.html">javadoc</a><div><dl>
 <dt>
 pv 
 </dt>
 <dd>
  The name of the pv.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/modifyStoreURLForPV
+</h1><div>
+- Changes the store for this particular PV. Note this only changes the PVTypeInfo; it does not change any data/files so one could lose data using this call.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ModifyStoreURLForPV.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv
+</dd>
+<dt>
+storage 
+</dt>
+<dd>
+ The name of the store to change ( for example, MTS )
+</dd>
+<dt>
+plugin_url 
+</dt>
+<dd>
+ The new URL specification for this store; this is what you would have used in the policy file and is something that can be understood by <a href="../api/org/epics/archiverappliance/config/StoragePluginURLParser.html">StoragePluginURLParser</a>.
 </dd>
 </dl></div>
 </div>
@@ -397,6 +422,13 @@ aliasname
 </dl></div>
 </div>
 <div class="bplelement"><h1>
+/getAllAliases
+</h1><div>
+- Get all the aliases in the cluster and the PV's they are mapped to.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetAllAliasesAction.html">javadoc</a><div><dl>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
 /skipAliasCheck
 </h1><div>
 - For PVs that are still in the archive PV workflow, skip the alias check where we examine the .NAME field to determine the real name. This is useful if you have pCAS servers that overload the .NAME field for something else.
@@ -426,6 +458,50 @@ newtype
 <dd>
  The new type  one of the ArchDBRTypes. For example, DBR_SCALAR_DOUBLE.
 </dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/mergeInData
+</h1><div>
+- Manually merges in data from an external appliance that is used for failover.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/MergeInDataFromExternalStore.html">javadoc</a><div><dl>
+<dt>
+pv 
+</dt>
+<dd>
+ The name of the pv; the PV needs to be paused. It's probably also a good idea to consolidate the data to the store being used for merging.
+</dd>
+<dt>
+other 
+</dt>
+<dd>
+ This is the <code>data_retrieval_url</code> of the other appliance.
+</dd>
+<dt>
+storage 
+</dt>
+<dd>
+ The name of the data store (LTS etc) to merge the data into. Please consolidate the data into this store to make sure merging in later data from the remote store does not result in losing data in the other stores on this appliance.
+</dd>
+<dt>
+from 
+</dt>
+<dd>
+ The start time for the retrieval request to the other server  defaults to 2 months ago.
+</dd>
+<dt>
+to 
+</dt>
+<dd>
+ The end time for the retrieval request to the other server  defaults to a month from now.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/resetFailoverCaches
+</h1><div>
+- Reset the failover caches for all the retrieval components in this cluster.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/ResetFailoverCaches.html">javadoc</a><div><dl>
 </dl></div>
 </div>
 <div class="bplelement"><h1>
@@ -490,6 +566,13 @@ value
 <dd>
  Either true of false; something that Boolean.parse can understand.
 </dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getTypeInfoKeys
+</h1><div>
+- Get a list of all the PV names that have a PVTypeInfo.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/GetPVTypeInfoKeys.html">javadoc</a><div><dl>
 </dl></div>
 </div>
 <div class="bplelement"><h1>
@@ -622,6 +705,19 @@ limit
 </h1><div>
 - Return a list of PVs sorted by number of times we've lost events because of changes in type of the underlying PV. This does not include PVs that have been paused.
 </div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/DroppedEventsTypeChangeReport.html">javadoc</a><div><dl>
+<dt>
+limit 
+</dt>
+<dd>
+ Limit this report to this many PVs per appliance in the cluster. Optional, if unspecified, there are no limits enforced.
+</dd>
+</dl></div>
+</div>
+<div class="bplelement"><h1>
+/getSlowChangingPVsWithDroppedEvents
+</h1><div>
+- Return a list of PVs which have lost more events than events from the IOC sorted by number of times we've lost events. This does not include PVs that have been paused.
+</div><br/>For more details, please see the <a href="org/epics/archiverappliance/mgmt/bpl/reports/SlowChangingPVsWithDroppedEvents.html">javadoc</a><div><dl>
 <dt>
 limit 
 </dt>
