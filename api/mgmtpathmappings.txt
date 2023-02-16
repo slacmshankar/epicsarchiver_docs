@@ -77,6 +77,7 @@
 /refreshPVDataFromChannelArchivers=org.epics.archiverappliance.mgmt.bpl.RefreshPVDataFromChannelArchivers
 /getMatchingPVsForThisAppliance=org.epics.archiverappliance.mgmt.bpl.GetMatchingPVsForAppliance
 /getCreationReportForAppliance=org.epics.archiverappliance.mgmt.bpl.reports.CreationTimeReportForAppliance
+/restartArchivePVWorkflowThreadForThisAppliance=org.epics.archiverappliance.mgmt.bpl.RestartArchiveWorkflowThreadForAppliance
 /importChannelArchiverConfiguration=org.epics.archiverappliance.mgmt.bpl.ImportChannelArchiverConfigAction
 /uploadChannelArchiverConfiguration=org.epics.archiverappliance.mgmt.bpl.UploadChannelArchiverConfigAction
 /importConfig=org.epics.archiverappliance.mgmt.bpl.ImportConfig
